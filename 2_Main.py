@@ -20,10 +20,11 @@ labels=['intro', 'verse', 'chorus', 'outro', 'silence', 'bridge', 'prechorus', '
 
 lb_to_idx = {lb: idx for idx, lb in enumerate(labels)}
 
-train_db_path = 'D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\data_train_test\\train\\final_audio\\'
-train_label_csv = 'D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\data_train_test\\train\\segments_csv\\'
-val_db_path = 'D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\data_train_test\\val\\final_audio\\'
-val_label_csv = 'D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\data_train_test\\val\\segments_csv'
+train_db_path = 'D:\\Projects\\music\\Music_Seg\\harmonix\\data_train_test\\train\\output\\'
+
+train_label_csv = 'D:\\Projects\\music\\Music_Seg\\harmonix\\data_train_test\\train\\segments_csv\\'
+val_db_path = 'D:\\Projects\\music\\Music_Seg\\harmonix\\data_train_test\\val\\output\\'
+val_label_csv = 'D:\\Projects\\music\\Music_Seg\\harmonix\\data_train_test\\val\\segments_csv\\'
 
 def plot_history(history, result_dir):
     plt.plot(history.history['acc'], marker='.')
@@ -57,9 +58,9 @@ def save_history(history, result_dir):
     nb_epoch = len(acc)
 
     with open(os.path.join(result_dir, 'History_result.txt'), 'w') as fp:
-        fp.write('epoch\tloss\tacc\tval_loss\tval_acc\n')
+        fp.write('epoch\\tloss\\tacc\\tval_loss\\tval_acc\\n')
         for i in range(nb_epoch):
-            fp.write('{}\t{}\t{}\t{}\t{}\n'.format(
+            fp.write('{}\\t{}\\t{}\\t{}\\t{}\\n'.format(
                 i, loss[i], acc[i], val_loss[i], val_acc[i]))
 
 
@@ -147,7 +148,7 @@ if __name__ == '__main__':
     #audio_input = (128, 1292, 2)
     
     #Define the output path
-    output = 'D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\output'  
+    output = 'D:\Projects\music\Music_Seg\harmonix\Output'  
     create_folder(output)
     
     ######################## Loading data ###############################

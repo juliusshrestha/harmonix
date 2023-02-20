@@ -2,7 +2,7 @@ import shutil
 import os
 import pandas as pd
 
-path = "D:\Data_Analytics\Harmoix\Dataset_Harmonix\Data\Audio"
+path = "D:\Projects\music\Music_Seg\harmonix\Dataset\Audio"
 dir_list = os.listdir(path)
 file_list = []
 #print(dir_list)
@@ -13,8 +13,8 @@ for files in dir_list:
 
 
 
-src = "D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\Data\\segments_csv"
-dst = "D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\Data\\segments_csv_new"
+src = "D:\Projects\music\Music_Seg\harmonix\Dataset\segments_csv"
+dst = "D:\Projects\music\Music_Seg\harmonix\Dataset\segments_csv_new"
 
 from os import path
 import shutil

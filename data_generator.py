@@ -32,7 +32,7 @@ def multi_thread_infinite_sequence(generator, shuffle=False, workers=2,
 
 
 class AudioGenerator(Sequence):
-    def __init__(self, npy_path, csv_path, width, batch_size, lable2index, frames_per_second = 8000 // 250, shuffle=True):
+    def __init__(self, npz_path, csv_path, width, batch_size, lable2index, frames_per_second = 8000 // 250, shuffle=True):
         '''
         :param mp3_path: the root path of audio folder
         :param width: the length of audio want to randomly cropped
@@ -45,10 +45,10 @@ class AudioGenerator(Sequence):
         self.batch_size = batch_size
         self.label2index = lable2index
         self.frames_per_second = frames_per_second
-        self.data_lists = self.get_audio_paths(npy_path)
-#         print("The data list are: ", self.data_lists)
+        self.data_lists = self.get_audio_paths(npz_path)
+#       print("The data list are: ", self.data_lists)
         
-        print("The csv_path is:", csv_path)
+#         print("The csv_path is:", csv_path)
         
         self.annotation_lists = self.get_annoations(csv_path)
         print("The annotation_lists are: ", self.annotation_lists)
@@ -95,8 +95,9 @@ class AudioGenerator(Sequence):
                     """
                     path = osp.join(root, filename)
                     #print("The csv file name is:", path)
-                    #df = pd.read_csv(path, header = None, skiprows = 1, names=["sound_event_recording", "start_time", "end_time"])
-                    df = pd.read_csv(path, header = None, skiprows = 1)
+                    df = pd.read_csv(path, header = None, skiprows = 1, names=["segment", "start_time", "end_time"])
+                    df.head()
+                    #df = pd.read_csv(path, header = None, skiprows = 1)
                     file_paths[name] = df.values.tolist()
         return file_paths
     
@@ -135,8 +136,8 @@ class AudioGenerator(Sequence):
             
             mask = np.zeros_like(x)
             gts = self.annotation_lists[name]
-            #print("The annotation name is:",self.annotation_lists[name])
-            #print("The GT are:",name, gts)
+            print("The annotation name is:",self.annotation_lists[name])
+            print("The GT are:",name, gts)
             
             for (cls, start, end) in gts:
                 index_label = self.label2index[cls] if cls in self.label2index.keys () else 0
@@ -150,6 +151,7 @@ class AudioGenerator(Sequence):
             #convert them into one-hot
             from keras.utils import to_categorical
             # h, w, c
+            
             y_one_hot = to_categorical(y, num_classes= n_class)
             y_one_hot = y_one_hot[:, 0:1, :]
             #****************** Maks Processing End****************************#
@@ -176,19 +178,17 @@ class AudioGenerator(Sequence):
 if __name__ == '__main__':
     #labels = ['Background', 'Zungmori', 'Jinyangzo', 'Zungzungmori', 'Zajinmori', 'Aniri', 'AniriChangzo', 'Changzo','Hweemori', 'Semachi', 'Danjungmari', 'Sichang']
     #labels = ['Background', 'Zungmori', 'Jinyangzo', 'Zungzungmori', 'Zajinmori', 'Aniri', 'AniriChangzo']
-    labels=['intro', 'verse', 'chorus', 'outro', 'silence', 'bridge', 'prechorus', \
-            'instrumental', 'breakdown', 'solo', 'postchorus', 'chorus_instrumental', \
-            'opening', 'quiet', 'gtr', 'break', 'verseinst', 'verse_slow', 'bre', 'drumroll', \
-            'gtrbreak', 'bigoutro', 'vocaloutro', 'fadein', 'instrumentalverse', 'introverse', \
-            'intropt', 'chorusinst', 'inst', 'mainriff', 'postverse', 'oddriff', 'end', 'slow', \
-            'synth', 'outroa', 'fast', 'slowverse', 'instintro', 'altchorus', 'instchorus', 'miniverse', \
-            'quietchorus', 'versepart', 'chorushalf', 'guitarsolo', 'introchorus', 'choruspart', 'preverse',\
-             'stutter', 'raps', 'guitar', 'instbridge', 'worstthingever', 'build', 'saxobeat', 'intchorus', \
-             'rhythmlessintro', 'transition', 'section', 'versea', 'transitiona', 'refrain']
+    labels=['intro', 'verse', 'chorus', 'outro', 'silence', 'bridge', 'prechorus', 'instrumental', 'bre', 'solo', 'breakdown', 
+    'postchorus','chorus_instrumental', 'opening', 'quiet', 'gtr', 'break', 'verseinst', 'verse_slow', 'drumroll', 'gtrbreak', 'bigoutro', \
+    'vocaloutro', 'fadein', 'instrumentalverse', 'introverse', 'intropt', 'chorusinst', 'inst', 'mainriff', 'postverse', \
+    'oddriff', 'end', 'slow', 'synth', 'outroa', 'fast', 'slowverse', 'instintro', 'altchorus', 'instchorus', 'miniverse', \
+    'quietchorus', 'versepart', 'chorushalf', 'guitarsolo', 'introchorus', 'choruspart', 'preverse', 'stutter', 'raps',\
+    'guitar', 'instbridge', 'worstthingever', 'build', 'saxobeat', 'intchorus', 'rhythmlessintro', 'transition', \
+    'section', 'versea', 'transitiona', 'refrain']
     
     lb_to_idx = {lb: idx for idx, lb in enumerate(labels)}
-    generator = AudioGenerator(npy_path='D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\Data\\AV_CSV_NPZ', \
-                               csv_path = 'D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\Data\\segments_csv', \
+    generator = AudioGenerator(npz_path='D:\Projects\music\Music_Seg\harmonix\Dataset\output',
+                               csv_path = "D:\Projects\music\Music_Seg\harmonix\Dataset\segments_csv",
                                width = 1920, batch_size=4, lable2index= lb_to_idx, shuffle=True)
     
     data_len = generator.data_length()

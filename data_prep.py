@@ -65,6 +65,7 @@ def video_frames(filename, width, height, depth, color=False, skip=True):
 #Audio Processing
 
 def read_audio(audio_path, target_fs=None):
+    print(audio_path)
     audio, fs = librosa.load(audio_path)
     
     if target_fs is not None and fs != target_fs:
@@ -104,8 +105,8 @@ def get_csv_annoations(path):
     3,200,300
     """
     #print("The csv file name is:", path)
-    #df = pd.read_csv(path, header = None, skiprows = 1, names=["sound_event_recording", "start_time", "end_time"])
-    df = pd.read_csv(path, header = None, skiprows = 1)
+    df = pd.read_csv(path, header = None, skiprows = 1, names=["segment", "start_time", "end_time"])
+    #df = pd.read_csv(path, header = None, skiprows = 1)
     data_label= df.values.tolist()
     
     return data_label
@@ -177,10 +178,10 @@ def main(output_directory, audio, video, csv, lb_to_idx):
 
 
 if __name__ == '__main__':
-    audio_directory = "D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\Data\\Audio"
-    video_directory = "D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\Data\\Video"
-    csv_directory = "D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\Data\\segments_csv"
-    output_directory = "D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\Data\\AV_CSV_NPZ"
+    audio_directory = "D:\\Projects\\music\\Music_Seg\\harmonix\\Dataset\\Audio\\"
+    video_directory = "D:\\Projects\\music\\Music_Seg\\harmonix\Dataset\\Video\\"
+    csv_directory = "D:\\Projects\\music\\Music_Seg\\harmonix\\Dataset\\segments_csv\\"
+    output_directory = "D:\\Projects\\music\\Music_Seg\\harmonix\\Dataset\\output\\"
 
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
@@ -205,8 +206,9 @@ if __name__ == '__main__':
     
     lb_to_idx = {lb: idx for idx, lb in enumerate(labels)}
 
-    #print(audios,videos)
+    print(audios,videos)
     for i in tqdm.tqdm(range(len(audios))):
+
         main(output_directory, audios[i],videos[i], csv[i], lb_to_idx)
         
         

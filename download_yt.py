@@ -7,7 +7,7 @@ def download_video(youtube_data):
    
       ydl_opts = {
          'format': 'best',
-         'outtmpl': 'D:\Data_Analytics\Harmoix\Dataset_Harmonix\Video\\'+files+'.mp4',
+         'outtmpl': 'D:\Projects\music\Music_Seg\harmonix\\Dataset\\Video\\'+files+'.mp4',
          'ignoreerrors': True,
          'geo_bypass': True,
          'geo_bypass_country': 'NP',
@@ -23,7 +23,7 @@ def download_audio(youtube_data):
    
       ydl_opts = {
          'format': 'bestaudio/best',
-         'outtmpl': 'D:\Data_Analytics\Harmoix\Dataset_Harmonix\Audio\\'+files+'.mp3',
+         'outtmpl': 'D:\Projects\music\Music_Seg\harmonix\\Dataset\\Audio\\'+files+'.mp3',
          'ignoreerrors': True,
          'geo_bypass': True,
          'geo_bypass_country': 'NP',
@@ -38,7 +38,7 @@ def download_audio(youtube_data):
          ydl.download(URLS)
 
 if __name__ == "__main__":
-    youtube_data = pd.read_csv("D:\Data_Analytics\Harmoix\Dataset_Harmonix\youtube_urls.csv")
+    youtube_data = pd.read_csv("D:\Projects\music\Music_Seg\harmonix\youtube_urls.csv")
     download_video(youtube_data)
     download_audio(youtube_data)
     print("Downloaded!!")

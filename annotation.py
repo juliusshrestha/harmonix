@@ -18,11 +18,11 @@ def  main(csv_directory,files):
   
     file_name = files.split("\\")[-1].split(".")[0]
 
-    dfout.to_csv(csv_directory+file_name+".csv")
+    dfout.to_csv(csv_directory + file_name+".csv")
 
 if __name__ == "__main__":
-    txt_directory = "D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\segments\\"
-    csv_directory = "D:\\Data_Analytics\\Harmoix\\Dataset_Harmonix\\segments_csv\\"
+    txt_directory = "D:\\Projects\\music\\Music_Seg\\harmonix\\segments\\"
+    csv_directory = "D:\\Projects\\music\\Music_Seg\\harmonix\\Dataset\\segments_csv\\"
 
     if not os.path.exists(csv_directory):
         os.makedirs(csv_directory)
